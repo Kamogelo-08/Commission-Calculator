@@ -1,0 +1,50 @@
+.commission-data-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.data-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.data-item {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.data-item:nth-child(even) {
+  background-color: #e9e9e9;
+}
+
+.data-item .title {
+  font-weight: bold;
+}
+
+.data-item .value {
+  margin-top: 5px;
+}
+
+.link-back {
+  display: block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.link-back:hover {
+  text-decoration: underline;
+}
