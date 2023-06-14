@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Commission Calculator</title>
+  <style>
+    body {
+  background-image: url('55.jpg');
+  color: white;
+}
+
+.commission-calculator {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid wheat;
+  border-radius: 5px;
+  background-color: #333;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.commission-calculator h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.commission-calculator .logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.commission-calculator .logo img {
+  width: 150px;
+}
+.commission-calculator .dot{
+    width: 20px;
+  
+}
+
+    .commission-calculator .form-group {
+      margin-bottom: 10px;
+    }
+
+    .commission-calculator label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .commission-calculator input[type="text"],
+    .commission-calculator input[type="number"],
+    .commission-calculator select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .commission-calculator .error {
+      color: red;
+      font-size: 12px;
+    }
+
+    .commission-calculator button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .submitted-data {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid wheat;
+      border-radius: 5px;
+      background-color: #333;
+      color: white;
+    }
+
+    .submitted-data h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .submitted-data table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .submitted-data th,
+    .submitted-data td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .submitted-data th {
+      background-color: #4caf50;
+      color: white;
+    }
+    .commission-calculator .submit-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .commission-calculator .form-group input[type="text"][readonly],
+    .commission-calculator .form-group input[type="number"][readonly] {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+    <body>
+        <div class="commission-calculator">
+          <div class="logo">
+            <img src="1.jpeg" alt="Logo">
+          </div>
+          <div class="dot">
+            
+          <h2>Interd<span class="logo"><img src="3.jpeg" alt="dot"></span> Commission Calculator</h2>
+        </div>
+    <form onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label for="consultant">Consultant:</label>
+        <input type="text" id="consultant" />
+        <span id="consultant-error" class="error"></span>
+      </div>
+      <div class="form-group">
+        <label for="clientName">Client Name:</label>
+        <input type="text" id="clientName" />
+        <span id="clientName-error" class="error"></span>
+      </div>
+      <div class="form-group">
+        <label for="job">Job:</label>
+        <input type="text" id="job" />
+        <span id="job-error" class="error"></span>
+      </div>
+      <div class="form-group">
+        <label for="salaryType">Salary:</label>
+        <select id="salaryType">
+          <option value="pa">P.a.</option>
+          <option value="pm">Pm</option>
+          <option value="ph">/h</option>
+        </select>
+      </div>
+      <div id="paInput-group" class="form-group" style="display: none;">
+        <label for="paInput">Salary per annum:</label>
+        <input type="number" id="paInput" />
+        <span id="paInput-error" class="error"></span>
+      </div>
+      <div id="pmInput-group" class="form-group" style="display: none;">
+        <label for="pmInput">Salary per month:</label>
+        <input type="number" id="pmInput" />
+        <span id="pmInput-error" class="error"></span>
+        <label for="monthsInput">Working months:</label>
+        <input type="number" id="monthsInput" />
+        <span id="monthsInput-error" class="error"></span>
+      </div>
+      <div id="phInput-group" class="form-group" style="display: none;">
+        <label for="phInput">Salary per hour:</label>
+        <input type="number" id="phInput" />
+        <span id="phInput-error" class="error"></span>
+        <label for="hoursInput">Working hours per day:</label>
+        <input type="number" id="hoursInput" />
+        <span id="hoursInput-error" class="error"></span>
+        <label for="daysInput">Working days per month:</label>
+        <input type="number" id="daysInput" />
+        <span id="daysInput-error" class="error"></span>
+        <label for="monthsInput">Working months:</label>
+        <input type="number" id="monthsInput" />
+        <span id="monthsInput-error" class="error"></span>
+      </div>
+      <div class="form-group">
+        <label for="recruitmentCommission">Recruitment Consultant Commission (% of Total Salary):</label>
+        <input type="number" id="recruitmentCommission" />
+        <span id="recruitmentCommission-error" class="error"></span>
+      </div>
+      <button type="submit">Calculate</button>
+      <div id="result-group" style="display: none;">
+        <div class="form-group">
+          <label for="totalSalary">Total Salary:</label>
+          <input type="text" id="totalSalary" readonly />
+        </div>
+        <div class="form-group">
+          <label for="recruitmentCommissionValue">Recruitment Consultant Commission:</label>
+          <input type="text" id="recruitmentCommissionValue" readonly />
+        </div>
+        <div class="form-group">
+          <label for="salaryAfterDeduction">Salary After Deduction:</label>
+          <input type="text" id="salaryAfterDeduction" readonly />
+        </div>
+        <button class="submit-button" onclick="submitData()">Submit</button>
+        
+      </div>
+    </form>
+  </div>
+  <script>
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      const errors = validateInput();
+
+      if (Object.keys(errors).length === 0) {
+        clearErrors();
+        // Perform calculations based on the input values
+        const salaryType = document.getElementById("salaryType").value;
+        let calculatedTotalSalary = 0;
+
+        if (salaryType === "pa") {
+          calculatedTotalSalary = parseFloat(document.getElementById("paInput").value);
+        } else if (salaryType === "pm") {
+          const salaryValue = parseFloat(document.getElementById("pmInput").value);
+          const workingMonths = parseInt(document.getElementById("monthsInput").value);
+          calculatedTotalSalary = salaryValue * workingMonths;
+        } else if (salaryType === "ph") {
+          const salaryPerHour = parseFloat(document.getElementById("phInput").value);
+          const workingHoursPerDay = parseFloat(document.getElementById("hoursInput").value);
+          const workingDaysPerMonth = parseFloat(document.getElementById("daysInput").value);
+          const workingMonths = parseInt(document.getElementById("monthsInput").value);
+          calculatedTotalSalary = salaryPerHour * workingHoursPerDay * workingDaysPerMonth * workingMonths;
+        }
+
+        const commissionPercent = parseFloat(document.getElementById("recruitmentCommission").value);
+        const calculatedCommission = (calculatedTotalSalary * commissionPercent) / 100;
+        const calculatedSalaryAfterDeduction = calculatedTotalSalary - calculatedCommission;
+
+        document.getElementById("totalSalary").value = calculatedTotalSalary;
+        document.getElementById("recruitmentCommissionValue").value = calculatedCommission;
+        document.getElementById("salaryAfterDeduction").value = calculatedSalaryAfterDeduction;
+
+        document.getElementById("result-group").style.display = "block";
+      } else {
+        displayErrors(errors);
+      }
+    }
+
+    function validateInput() {
+      const errors = {};
+      const consultant = document.getElementById("consultant").value;
+      const clientName = document.getElementById("clientName").value;
+      const job = document.getElementById("job").value;
+      const salaryType = document.getElementById("salaryType").value;
+      const recruitmentCommission = document.getElementById("recruitmentCommission").value;
+
+      if (consultant.trim() === "") {
+        errors.consultant = "Consultant name is required";
+      }
+      if (clientName.trim() === "") {
+        errors.clientName = "Client name is required";
+      }
+      if (job.trim() === "") {
+        errors.job = "Job title is required";
+      }
+      if (salaryType === "pa") {
+        const paInput = parseFloat(document.getElementById("paInput").value);
+        if (isNaN(paInput) || paInput <= 0) {
+          errors.paInput = "Invalid salary amount";
+        }
+      } else if (salaryType === "pm") {
+        const pmInput = parseFloat(document.getElementById("pmInput").value);
+        const monthsInput = parseInt(document.getElementById("monthsInput").value);
+        if (isNaN(pmInput) || pmInput <= 0) {
+          errors.pmInput = "Invalid salary amount";
+        }
+        if (isNaN(monthsInput) || monthsInput <= 0) {
+          errors.monthsInput = "Invalid number of months";
+        }
+      } else if (salaryType === "ph") {
+        const phInput = parseFloat(document.getElementById("phInput").value);
+        const hoursInput = parseFloat(document.getElementById("hoursInput").value);
+        const daysInput = parseFloat(document.getElementById("daysInput").value);
+        const monthsInput = parseInt(document.getElementById("monthsInput").value);
+        if (isNaN(phInput) || phInput <= 0) {
+          errors.phInput = "Invalid salary amount";
+        }
+        if (isNaN(hoursInput) || hoursInput <= 0) {
+          errors.hoursInput = "Invalid number of hours";
+        }
+        if (isNaN(daysInput) || daysInput <= 0) {
+          errors.daysInput = "Invalid number of days";
+        }
+        if (isNaN(monthsInput) || monthsInput <= 0) {
+          errors.monthsInput = "Invalid number of months";
+        }
+      }
+
+      if (isNaN(recruitmentCommission) || recruitmentCommission < 0) {
+        errors.recruitmentCommission = "Invalid commission percentage";
+      }
+
+      return errors;
+    }
+
+    function displayErrors(errors) {
+      clearErrors();
+
+      for (const key in errors) {
+        if (errors.hasOwnProperty(key)) {
+          const errorElement = document.getElementById(key + "-error");
+          errorElement.innerText = errors[key];
+        }
+      }
+    }
+
+    function clearErrors() {
+      const errorElements = document.getElementsByClassName("error");
+      for (let i = 0; i < errorElements.length; i++) {
+        errorElements[i].innerText = "";
+      }
+    }
+
+    function updateSalaryInput() {
+      const salaryType = document.getElementById("salaryType").value;
+      const paInputGroup = document.getElementById("paInput-group");
+      const pmInputGroup = document.getElementById("pmInput-group");
+      const phInputGroup = document.getElementById("phInput-group");
+
+      if (salaryType === "pa") {
+        paInputGroup.style.display = "block";
+        pmInputGroup.style.display = "none";
+        phInputGroup.style.display = "none";
+      } else if (salaryType === "pm") {
+        paInputGroup.style.display = "none";
+        pmInputGroup.style.display = "block";
+        phInputGroup.style.display = "none";
+      } else if (salaryType === "ph") {
+        paInputGroup.style.display = "none";
+        pmInputGroup.style.display = "none";
+        phInputGroup.style.display = "block";
+      }
+    }
+
+    document.getElementById("salaryType").addEventListener("change", updateSalaryInput);
+    function submitData() {
+        const consultant = document.getElementById("consultant").value;
+        const clientName = document.getElementById("clientName").value;
+        const job = document.getElementById("job").value;
+        const salaryType = document.getElementById("salaryType").value;
+        const recruitmentCommission = document.getElementById("recruitmentCommission").value;
+        const totalSalary = document.getElementById("totalSalary").value;
+        const calculatedCommission = document.getElementById("recruitmentCommissionValue").value;
+        const salaryAfterDeduction = document.getElementById("salaryAfterDeduction").value;}
+
+        const data = {
+          consultant,
+          clientName,
+          job,
+          recruitmentCommission,
+          totalSalary,
+          calculatedCommission,
+          salaryAfterDeduction
+        };
+
+        let submittedData = JSON.parse(localStorage.getItem("submittedData"));
+        if (!submittedData) {
+          submittedData = [];
+        }
+
+        submittedData.push(data);
+        localStorage.setItem("submittedData", JSON.stringify(submittedData));
+
+        window.location.href = "submitted.html";
+  </script>
+</body>
+</html>
