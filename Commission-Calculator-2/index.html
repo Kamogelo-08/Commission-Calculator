@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interdot Commission Calculator</title>
+  <style>
+    body {
+      background-image: url('55.jpg');
+      color: white;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid wheat;
+      border-radius: 5px;
+      background-color: #333;
+      color: white;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-container label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .form-container input[type="text"],
+    .form-container input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+      background-color: #555;
+      color: white;
+    }
+
+    .form-container select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+      background-color: #555;
+      color: white;
+    }
+
+    .form-container button {
+      padding: 10px 20px;
+      border-radius: 5px;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+    }
+
+    .form-container button:hover {
+      background-color: #45a049;
+    }
+
+    .error-message {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Interdot Commission Calculator</h2>
+    <label for="consultant">Consultant:</label>
+    <input type="text" id="consultant" placeholder="Enter consultant name">
+
+    <label for="clientName">Client Name:</label>
+    <input type="text" id="clientName" placeholder="Enter client name">
+
+    <label for="job">Job:</label>
+    <input type="text" id="job" placeholder="Enter job title">
+
+    <label for="recruitmentCommission">Recruitment Commission (%):</label>
+    <input type="number" id="recruitmentCommission" placeholder="Enter commission percentage">
+
+    <label for="salaryPerAnnum" id="salaryPerAnnumLabel">Salary per Annum:</label>
+    <input type="number" id="salaryPerAnnum" placeholder="Enter salary per annum">
+
+    <label for="salaryPerMonth" id="salaryPerMonthLabel" style="display: none;">Salary per Month:</label>
+    <input type="number" id="salaryPerMonth" placeholder="Enter salary per month" style="display: none;">
+
+    <label for="workingMonths" id="workingMonthsLabel" style="display: none;">Working Months:</label>
+    <input type="number" id="workingMonths" placeholder="Enter working months" style="display: none;">
+
+    <label for="salaryPerHour" id="salaryPerHourLabel" style="display: none;">Salary per Hour:</label>
+    <input type="number" id="salaryPerHour" placeholder="Enter salary per hour" style="display: none;">
+
+    <label for="workingHoursPerDay" id="workingHoursPerDayLabel" style="display: none;">Working Hours per Day:</label>
+    <input type="number" id="workingHoursPerDay" placeholder="Enter working hours per day" style="display: none;">
+
+    <label for="workingDaysPerMonth" id="workingDaysPerMonthLabel" style="display: none;">Working Days per Month:</label>
+    <input type="number" id="workingDaysPerMonth" placeholder="Enter working days per month" style="display: none;">
+
+    <label for="workingMonthsHourly" id="workingMonthsHourlyLabel" style="display: none;">Working Months:</label>
+    <input type="number" id="workingMonthsHourly" placeholder="Enter working months" style="display: none;">
+
+    <div id="errorContainer"></div>
+
+    <button onclick="calculateSalary()">Submit</button>
+  </div>
+
+  <script>
+    function calculateSalary() {
+      const consultant = document.getElementById("consultant").value;
+      const clientName = document.getElementById("clientName").value;
+      const job = document.getElementById("job").value;
+      const recruitmentCommission = document.getElementById("recruitmentCommission").value;
+
+      const salaryPerAnnum = document.getElementById("salaryPerAnnum").value;
+      const salaryPerMonth = document.getElementById("salaryPerMonth").value;
+      const workingMonths = document.getElementById("workingMonths").value;
+      const salaryPerHour = document.getElementById("salaryPerHour").value;
+      const workingHoursPerDay = document.getElementById("workingHoursPerDay").value;
+      const workingDaysPerMonth = document.getElementById("workingDaysPerMonth").value;
+      const workingMonthsHourly = document.getElementById("workingMonthsHourly").value;
+
+      const errorContainer = document.getElementById("errorContainer");
+      errorContainer.innerHTML = "";
+
+      let totalSalary = 0;
+      let calculatedCommission = 0;
+      let salaryAfterDeduction = 0;
+
+      if (salaryPerAnnum) {
+        totalSalary = salaryPerAnnum;
+      } else if (salaryPerMonth && workingMonths) {
+        totalSalary = salaryPerMonth * workingMonths;
+      } else if (salaryPerHour && workingHoursPerDay && workingDaysPerMonth && workingMonthsHourly) {
+        totalSalary = salaryPerHour * workingHoursPerDay * workingDaysPerMonth * workingMonthsHourly;
+      } else {
+        errorContainer.innerHTML = "Please provide valid salary information.";
+        return;
+      }
+
+      if (!recruitmentCommission) {
+        errorContainer.innerHTML = "Please provide a recruitment commission percentage.";
+        return;
+      }
+
+      calculatedCommission = (recruitmentCommission / 100) * totalSalary;
+      salaryAfterDeduction = totalSalary - calculatedCommission;
+
+      const formData = {
+        consultant,
+        clientName,
+        job,
+        recruitmentCommission,
+        totalSalary,
+        calculatedCommission,
+        salaryAfterDeduction
+      };
+
+      const submittedData = JSON.parse(localStorage.getItem("submittedData")) || [];
+      submittedData.push(formData);
+      localStorage.setItem("submittedData", JSON.stringify(submittedData));
+
+      window.location.href = "submitted.html";
+    }
+
+    function showHideFields() {
+      const salaryPerAnnumLabel = document.getElementById("salaryPerAnnumLabel");
+      const salaryPerMonthLabel = document.getElementById("salaryPerMonthLabel");
+      const workingMonthsLabel = document.getElementById("workingMonthsLabel");
+      const salaryPerHourLabel = document.getElementById("salaryPerHourLabel");
+      const workingHoursPerDayLabel = document.getElementById("workingHoursPerDayLabel");
+      const workingDaysPerMonthLabel = document.getElementById("workingDaysPerMonthLabel");
+      const workingMonthsHourlyLabel = document.getElementById("workingMonthsHourlyLabel");
+
+      const salaryPerAnnum = document.getElementById("salaryPerAnnum");
+      const salaryPerMonth = document.getElementById("salaryPerMonth");
+      const workingMonths = document.getElementById("workingMonths");
+      const salaryPerHour = document.getElementById("salaryPerHour");
+      const workingHoursPerDay = document.getElementById("workingHoursPerDay");
+      const workingDaysPerMonth = document.getElementById("workingDaysPerMonth");
+      const workingMonthsHourly = document.getElementById("workingMonthsHourly");
+
+      const selectedOption = document.getElementById("salaryOption").value;
+
+      salaryPerAnnumLabel.style.display = "none";
+      salaryPerMonthLabel.style.display = "none";
+      workingMonthsLabel.style.display = "none";
+      salaryPerHourLabel.style.display = "none";
+      workingHoursPerDayLabel.style.display = "none";
+      workingDaysPerMonthLabel.style.display = "none";
+      workingMonthsHourlyLabel.style.display = "none";
+
+      salaryPerAnnum.style.display = "none";
+      salaryPerMonth.style.display = "none";
+      workingMonths.style.display = "none";
+      salaryPerHour.style.display = "none";
+      workingHoursPerDay.style.display = "none";
+      workingDaysPerMonth.style.display = "none";
+      workingMonthsHourly.style.display = "none";
+
+      if (selectedOption === "P.a") {
+        salaryPerAnnumLabel.style.display = "block";
+        salaryPerAnnum.style.display = "block";
+      } else if (selectedOption === "P.m") {
+        salaryPerMonthLabel.style.display = "block";
+        workingMonthsLabel.style.display = "block";
+        salaryPerMonth.style.display = "block";
+        workingMonths.style.display = "block";
+      } else if (selectedOption === "/h") {
+        salaryPerHourLabel.style.display = "block";
+        workingHoursPerDayLabel.style.display = "block";
+        workingDaysPerMonthLabel.style.display = "block";
+        workingMonthsHourlyLabel.style.display = "block";
+        salaryPerHour.style.display = "block";
+        workingHoursPerDay.style.display = "block";
+        workingDaysPerMonth.style.display = "block";
+        workingMonthsHourly.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
+
+

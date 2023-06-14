@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Submitted Data</title>
+  <style>
+    body {
+      background-image: url('55.jpg');
+      color: white;
+    }
+
+    .submitted-data {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid wheat;
+      border-radius: 5px;
+      background-color: #333;
+      color: white;
+    }
+
+    .submitted-data h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .submitted-data table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .submitted-data th,
+    .submitted-data td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .submitted-data th {
+      background-color: #4caf50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="submitted-data">
+    <h2>Submitted Data</h2>
+    <table>
+      <tr>
+        <th>Consultant</th>
+        <th>Client Name</th>
+        <th>Job</th>
+        <th>Recruitment Commission (%)</th>
+        <th>Total Salary</th>
+        <th>Commission Value</th>
+        <th>Salary After Deduction</th>
+      </tr>
+      <tbody id="data-table-body"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const submittedData = JSON.parse(localStorage.getItem("submittedData"));
+
+    if (submittedData) {
+      const dataTableBody = document.getElementById("data-table-body");
+
+      submittedData.forEach((data) => {
+        const row = document.createElement("tr");
+
+        const consultantCell = document.createElement("td");
+        consultantCell.innerText = data.consultant;
+        row.appendChild(consultantCell);
+
+        const clientNameCell = document.createElement("td");
+        clientNameCell.innerText = data.clientName;
+        row.appendChild(clientNameCell);
+
+        const jobCell = document.createElement("td");
+        jobCell.innerText = data.job;
+        row.appendChild(jobCell);
+
+        const commissionCell = document.createElement("td");
+        commissionCell.innerText = data.recruitmentCommission;
+        row.appendChild(commissionCell);
+
+        const totalSalaryCell = document.createElement("td");
+        totalSalaryCell.innerText = data.totalSalary;
+        row.appendChild(totalSalaryCell);
+
+        const commissionValueCell = document.createElement("td");
+        commissionValueCell.innerText = data.calculatedCommission;
+        row.appendChild(commissionValueCell);
+
+        const salaryAfterDeductionCell = document.createElement("td");
+        salaryAfterDeductionCell.innerText = data.salaryAfterDeduction;
+        row.appendChild(salaryAfterDeductionCell);
+
+        dataTableBody.appendChild(row);
+      });
+    }
+  </script>
+</body>
+</html>
